@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a05f9574604c75d45a32f9bef7007041
+guid: 87792f357cf568744bba049af338f814
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,23 +7,28 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material #49
-    second: {fileID: 2100000, guid: 956002903dbfd3b47acfa14083896f3b, type: 2}
+      name: mag
+    second: {fileID: 2100000, guid: 854ec51bb74e43a478dbe0cd831ce314, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material #50
-    second: {fileID: 2100000, guid: 2130fcdd547ab1244b04956cf22c2784, type: 2}
+      name: north_1
+    second: {fileID: 2100000, guid: 38abe5aace9061442a765cca07df855a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material #62
-    second: {fileID: 2100000, guid: 2fa919b9ce8a75a479a09a3a0998ba0e, type: 2}
+      name: ns
+    second: {fileID: 2100000, guid: a732bd09c1209b946a3bbe7542552602, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material #63
-    second: {fileID: 2100000, guid: 118e06f8bdb3f324293ee53f603f347e, type: 2}
+      name: ns_1
+    second: {fileID: 2100000, guid: 281eee2c95eb00f4eb59dbab42910593, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: south_1
+    second: {fileID: 2100000, guid: db81313b71fa08445be88d1851c3d4a0, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -56,15 +61,15 @@ ModelImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 0
+    meshCompression: 3
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importPhysicalCameras: 1
-    importVisibility: 1
-    importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importVisibility: 0
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
@@ -91,7 +96,7 @@ ModelImporter:
     strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
-    normalImportMode: 0
+    normalImportMode: 1
     tangentImportMode: 3
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0

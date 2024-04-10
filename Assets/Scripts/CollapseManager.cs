@@ -12,23 +12,80 @@ public class CollapseManager : MonoBehaviour
 
     public void Collapse(ActiveItem itemA, ActiveItem itemB)
     {
-        StartCoroutine(CollapseProcess(itemA, itemB));
+
+        ActiveItem toItem;
+        ActiveItem fromItem;
+        if (Mathf.Abs(itemA.transform.position.y - itemB.transform.position.y) > 0.02f)
+        {
+            if (itemA.transform.position.y > itemB.transform.position.y)
+            {
+                fromItem = itemA;
+                toItem = itemB;
+            }
+            else
+            {
+                fromItem = itemB;
+                toItem = itemA;
+            }
+        }
+        else
+        {
+            if (itemA.Rigidbody.velocity.magnitude > itemB.Rigidbody.velocity.magnitude)
+            {
+                fromItem = itemA;
+                toItem = itemB;
+            }
+            else
+            {
+                fromItem = itemB;
+                toItem = itemA;
+            }
+        }
+        StartCoroutine(CollapseProcess(fromItem, toItem));
     }
 
-    public IEnumerator CollapseProcess(ActiveItem itemA, ActiveItem itemB)
+    public IEnumerator CollapseProcess(ActiveItem fromItem, ActiveItem toItem)
     {
-        itemA.Disable();
-        Vector3 startPosition = itemA.transform.position;
-        for (float t = 0f; t < 1f; t += Time.deltaTime / 0.08f)
-        {
-            itemA.transform.position = Vector3.Lerp(startPosition, itemB.transform.position, t);
-            yield return null;
-        }
-        itemA.transform.position = itemB.transform.position;
-        itemA.Die();
-        itemB.IncreaseLevel();
+        fromItem.Disable();
 
-        ExplodeBall(itemB.transform.position, itemB.Radius + 0.2f);
+        if (fromItem.ItemType == ItemType.Ball || toItem.ItemType == ItemType.Ball)
+        {
+            Vector3 startPosition = fromItem.transform.position;
+            for (float t = 0f; t < 1f; t += Time.deltaTime / 0.08f)
+            {
+                fromItem.transform.position = Vector3.Lerp(startPosition, toItem.transform.position, t);
+                yield return null;
+            }
+            fromItem.transform.position = toItem.transform.position;
+        }
+
+
+
+        if (fromItem.ItemType == ItemType.Ball && toItem.ItemType == ItemType.Ball)
+        {
+            fromItem.Die();
+            toItem.DoEffect();
+            ExplodeBall(toItem.transform.position, toItem.Radius + 0.2f);
+        }
+        else
+        {
+            if (fromItem.ItemType == ItemType.Ball)
+            {
+                fromItem.Die();
+            }
+            else
+            {
+                fromItem.DoEffect();
+            }
+            if (toItem.ItemType == ItemType.Ball)
+            {
+                toItem.Die();
+            }
+            else
+            {
+                toItem.DoEffect();
+            }
+        }
     }
 
     public void ExplodeBall(Vector3 position, float radius)

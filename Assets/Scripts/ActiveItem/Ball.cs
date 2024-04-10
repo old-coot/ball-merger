@@ -11,11 +11,19 @@ public class Ball : ActiveItem
         base.SetLevel(level);
         _renderer.material = _ballSetttings.BallMaterials[level];
 
-        Projection.Setup(_ballSetttings.BallProjectionMaterials[level], _levelText.text, Radius);
+
         Radius = Mathf.Lerp(0.4f, 0.7f, level / 10f);
         Vector3 ballScale = Vector3.one * Radius * 2f;
         _visualTransform.localScale = ballScale;
         _collider.radius = Radius;
         _trigger.radius = Radius + 0.2f;
+
+        Projection.Setup(_ballSetttings.BallProjectionMaterials[level], _levelText.text, Radius);
+    }
+
+    public override void DoEffect()
+    {
+        base.DoEffect();
+        IncreaseLevel();
     }
 }

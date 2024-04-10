@@ -1,27 +1,27 @@
 using TMPro;
 using UnityEngine;
 
-public class ActiveItem : MonoBehaviour
+public class ActiveItem : Item
 {
     public int Level;
     public float Radius;
     [SerializeField] protected TextMeshProUGUI _levelText;
 
-    [SerializeField] private SphereCollider _collider;
-    [SerializeField] private SphereCollider _trigger;
+    [SerializeField] protected SphereCollider _collider;
+    [SerializeField] protected SphereCollider _trigger;
 
     public Rigidbody Rigidbody;
     public bool IsDead;
     public Projection Projection;
 
-    [SerializeField] private Animator _animator;
+    [SerializeField] protected Animator _animator;
 
-    [ContextMenu("IncreaseLavel")]
 
-    private void Start()
+    protected virtual void Start()
     {
         Projection.Hide();
     }
+    [ContextMenu("IncreaseLavel")]
     public void IncreaseLevel()
     {
         Level++;
@@ -95,5 +95,10 @@ public class ActiveItem : MonoBehaviour
     internal void Die()
     {
         Destroy(gameObject);
+    }
+
+    public virtual void DoEffect()
+    {
+
     }
 }
