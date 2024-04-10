@@ -2761,7 +2761,7 @@ MonoBehaviour:
   Projection: {fileID: 3302910209143109501}
   _animator: {fileID: 6849306673623418719}
   _affectRadius: 4
-  _forceValue: 15
+  _forceValue: 50
   _affectArea: {fileID: 5544130283665875969}
   _effectPrefab: {fileID: 4568621449396615745, guid: 836f721988a69e64b8c023130a7268dc,
     type: 3}
