@@ -19,6 +19,12 @@ public class Ball : ActiveItem
         _trigger.radius = Radius + 0.2f;
 
         Projection.Setup(_ballSetttings.BallProjectionMaterials[level], _levelText.text, Radius);
+
+        if (ScoreManager.Instance.AddScore(ItemType, transform.position, level))
+        {
+            Die();
+        }
+
     }
 
     public override void DoEffect()

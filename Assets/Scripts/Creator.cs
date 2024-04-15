@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class Creator : MonoBehaviour
@@ -6,28 +7,43 @@ public class Creator : MonoBehaviour
     [SerializeField] private Transform _tube;
     [SerializeField] private Transform _spawner;
     [SerializeField] private ActiveItem _ballPrefab;
+    [SerializeField] private Transform _rayTransform;
+    [SerializeField] private LayerMask _layerMask;
 
     private ActiveItem _itemInTube;
     private ActiveItem _itemInSpawner;
-
-    [SerializeField] private Transform _rayTransform;
-    [SerializeField] private LayerMask _layerMask;
+    private int _ballsLeft;
+    [SerializeField] private TextMeshProUGUI _numberOfBallsText;
 
 
 
     private void Start()
     {
+        _ballsLeft = Level.Instance.NumberOfBalls;
+        UpdateBallsLeftText();
         CreateItemInTube();
         StartCoroutine(MoveToSpawner());
+    }
+
+    public void UpdateBallsLeftText()
+    {
+        _numberOfBallsText.text = _ballsLeft.ToString();
     }
 
 
     private void CreateItemInTube()
     {
-        int itemLevel = Random.Range(0, 5);
+        if (_ballsLeft == 0)
+        {
+            Debug.Log("Balls Ended");
+            return;
+        }
+        int itemLevel = Random.Range(0, 2);
         _itemInTube = Instantiate(_ballPrefab, _tube.position, Quaternion.identity);
         _itemInTube.SetLevel(itemLevel);
         _itemInTube.SetupToTube();
+        _ballsLeft--;
+        UpdateBallsLeftText();
 
     }
     private IEnumerator MoveToSpawner()
@@ -66,6 +82,8 @@ public class Creator : MonoBehaviour
         }
     }
 
+    private Coroutine _waitForLose;
+
     private void Drop()
     {
         _itemInSpawner.Drop();
@@ -76,5 +94,38 @@ public class Creator : MonoBehaviour
         {
             StartCoroutine(MoveToSpawner());
         }
+        else
+        {
+            _waitForLose = StartCoroutine(WaitForLose());
+            CollapseManager.Instance.OnCollapse.AddListener(ResetLoseTimer);
+            GameManager.Instance.OnWin.AddListener(StopWaitForLose);
+        }
+    }
+
+    void ResetLoseTimer()
+    {
+        if (_waitForLose != null)
+        {
+            StopCoroutine(_waitForLose);
+            _waitForLose = StartCoroutine(WaitForLose());
+        }
+    }
+
+    void StopWaitForLose()
+    {
+        if (_waitForLose != null)
+        {
+            StopCoroutine(_waitForLose);
+        }
+    }
+
+    IEnumerator WaitForLose()
+    {
+        for (float t = 0f; t < 5f; t += Time.deltaTime)
+        {
+            yield return null;
+        }
+        Debug.Log("Lose");
+        GameManager.Instance.Lose();
     }
 }
